@@ -45,7 +45,14 @@
       ContactManager.Contact = Backbone.Model.extend({});
 
       ContactManager.ContactCollection = Backbone.Collection.extend({
-      	model: ContactManager.Contact
+      	model: ContactManager.Contact,
+
+      	comparator: function(a, b) {
+      		var aName = a.get('firstName') + " " + a.get('lastName');
+      		var bName = b.get('firstName') + " " + b.get('lastName');
+
+      		return aName > bName;
+      	}
       });
 
       ContactManager.ContactItemView = Marionette.ItemView.extend({
@@ -71,21 +78,30 @@
 
       ContactManager.on("start", function() {
         var contacts = new ContactManager.ContactCollection([
-	        {
-		        firstName: "Bob",
-	          lastName: "Brigham",
-	          phoneNumber: "555-0163"
-	        },
-	        {
-		        firstName: "Alice",
-	          lastName: "Arten",
-	          phoneNumber: "555-0184"
-	        },
-	        {
-	          firstName: "Charlie",
-	          lastName: "Campbell",
-	          phoneNumber: "555-0184"
-	        }
+          {
+				   firstName: "Alice",
+				   lastName: "Tampen"
+				  },
+				  {
+				   firstName: "Bob",
+				   lastName: "Brigham"
+				  },
+				  {
+				   firstName: "Alice",
+				   lastName: "Artsy"
+				  },
+					{
+						firstName: "Alice",
+						lastName: "Arten"
+					},
+					{
+						firstName: "Charlie",
+						lastName: "Campbell"
+					},
+					{
+						firstName: "Alice",
+						lastName: "Smith"
+					}
         ]);
 
         var contactsListView = new ContactManager.ContactsView({
