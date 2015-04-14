@@ -17,12 +17,12 @@
 			</div>
 		</div>
 
-		<div class="app-container">
-			<div id="main-region" class="container">
-				<p>Here is static content in the web page. You'll notice that it gets
-				replaced by our app as soon as we start it.</p>
-			</div>
-		</div>
+	 	<div id="app-container">
+	    <div id="main-region" class="container">
+	      <p>Here is static content in the web page. You'll notice that it gets
+	      replaced by our app as soon as we start it.</p>
+	    </div>
+  	</div>
 
 		<script src="components/jquery/dist/jquery.js"></script>
 		<script src="components/json2/json2.js"></script>
@@ -33,39 +33,49 @@
 		<script src="components/backbone.babysitter/lib/backbone.babysitter.js"></script>
 
 		<!-- Templates -->
-		<script type="text/template" id="static-template">
-			<p> This is text rendered by Marionettte.</p>
-		</script>
-
-		<script type="text/template" id="different-static-template">
-			<p> Text from another template...</p>
-		</script>
-
-		<script type="text/template" id="list-item-template">
-			<li>One Item</li>
+		<script type="text/template" id="contact-template">
+  		<p><%- firstName %> <%- lastName %></p>
 		</script>
 		<!-- Templates End -->
 
 		<!-- Marionette Code -->
 		<script>
-			var ContactManager = new Marionette.Application();
+			 var ContactManager = new Marionette.Application();
 
-			ContactManager.StaticView = Marionette.ItemView.extend({
-				el: '#main-region',
-				tagName: 'ul',
-				template: '#static-template'
-			});
 
-			<!-- Set Views -->
-			ContactManager.on('start', function() {
-				var staticView = new ContactManager.StaticView({});
-					staticView.render({
-						template: '#list-item-template'
-				});
-			});
+		   ContactManager.ContactView = Marionette.ItemView.extend({
+		     template: '#contact-template'
+		   });
 
-			ContactManager.start();
-		</script>
+		   ContactManager.Contact = Backbone.Model.extend({});
+
+		   ContactManager.on('before:start', function() {
+		   	var RegionContainer = new Marionette.LayoutView.extend({
+			    el: '#app-container',
+
+			    regions: {
+			      main: '#main-region'
+			    }
+
+		   	});
+
+		   	ContactManager.regions = new RegionContainer();
+		   })
+
+		   ContactManager.on("start", function() {
+		    var alice = new ContactManager.Contact({
+		      firstName: 'Alice',
+		      lastName: 'Arten',
+		      phoneNumber: '555-0148'
+		    });
+		  
+		    var aliceView = new ContactManager.ContactView({
+		      model: alice
+		    });
+		    ContactManager.regions.main.show(aliceView);
+		   });
+
+	</script>
 
 	</body>
 </html>
