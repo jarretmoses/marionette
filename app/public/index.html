@@ -31,6 +31,10 @@
 		<script src="components/backbone.marionette/lib/core/backbone.marionette.js"></script>
 		<script src="components/backbone.wreqr/lib/backbone.wreqr.js"></script>
 		<script src="components/backbone.babysitter/lib/backbone.babysitter.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/entities/contact.js"></script>
+		<script src="js/apps/contacts/list/list_view.js"></script>
+		<script src="js/apps/contacts/list/list_controller.js"></script>
 
 		<!-- Templates -->
 		<script type="text/template" id="contact-list-item">
@@ -40,76 +44,6 @@
 
 		<!-- Marionette Code -->
     <script type="text/javascript">
-      var ContactManager = new Marionette.Application();
-
-      ContactManager.Contact = Backbone.Model.extend({});
-
-      ContactManager.ContactCollection = Backbone.Collection.extend({
-      	model: ContactManager.Contact,
-
-      	comparator: function(a, b) {
-      		var aName = a.get('firstName') + " " + a.get('lastName');
-      		var bName = b.get('firstName') + " " + b.get('lastName');
-
-      		return aName > bName;
-      	}
-      });
-
-      ContactManager.ContactItemView = Marionette.ItemView.extend({
-      	tagName: 'li',
-        template: "#contact-list-item"
-      });
-
-      ContactManager.ContactsView = Marionette.CollectionView.extend({
-      	tagName: "ul",
-      	childView: ContactManager.ContactItemView
-      });
-
-
-      ContactManager.on("before:start", function(){
-        var RegionContainer = Marionette.LayoutView.extend({
-          el: "#app-container",
-          regions: {
-            main: "#main-region"
-          }
-        });
-        ContactManager.regions = new RegionContainer();
-      });
-
-      ContactManager.on("start", function() {
-        var contacts = new ContactManager.ContactCollection([
-          {
-				   firstName: "Alice",
-				   lastName: "Tampen"
-				  },
-				  {
-				   firstName: "Bob",
-				   lastName: "Brigham"
-				  },
-				  {
-				   firstName: "Alice",
-				   lastName: "Artsy"
-				  },
-					{
-						firstName: "Alice",
-						lastName: "Arten"
-					},
-					{
-						firstName: "Charlie",
-						lastName: "Campbell"
-					},
-					{
-						firstName: "Alice",
-						lastName: "Smith"
-					}
-        ]);
-
-        var contactsListView = new ContactManager.ContactsView({
-          collection: contacts
-        });
-
-        ContactManager.regions.main.show(contactsListView);
-      });
 
       ContactManager.start();
     </script>
