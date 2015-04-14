@@ -60,7 +60,7 @@
 		   	});
 
 		   	ContactManager.regions = new RegionContainer();
-		   })
+		   });
 
 		   ContactManager.on("start", function() {
 		    var alice = new ContactManager.Contact({
@@ -75,6 +75,7 @@
 		    ContactManager.regions.main.show(aliceView);
 		   });
 
+		   ContactManager.start();
 	</script>
 
 	</body>
